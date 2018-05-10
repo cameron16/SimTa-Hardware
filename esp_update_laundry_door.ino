@@ -59,9 +59,9 @@ void setup() {
                   "Host: " + host + "\r\n" +
                   "User-  Agent: BuildFailureDetectorESP8266\r\n" +
                   "Content-Type: application/json\r\n" +
-                  "Content-Length: 63\r\n" +
+                  "Content-Length: 60\r\n" +
                   "\r\n" +
-                  "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":0}"+"\r\n"+
+                  "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"door_status\":0}"+"\r\n"+
                   "Connection: close\r\n\r\n");
   
 }
@@ -80,9 +80,9 @@ void open_laundry_door(){
                         "Host: " + host + "\r\n" +
                         "User-  Agent: BuildFailureDetectorESP8266\r\n" +
                         "Content-Type: application/json\r\n" +
-                        "Content-Length: 63\r\n" +
+                        "Content-Length: 60\r\n" +
                         "\r\n" +
-                        "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":1}"+"\r\n"+
+                        "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"door_status\":1}"+"\r\n"+
                         "Connection: close\r\n\r\n");
   
 }
@@ -101,9 +101,9 @@ void close_laundry_door(){
                   "Host: " + host + "\r\n" +
                   "User-  Agent: BuildFailureDetectorESP8266\r\n" +
                   "Content-Type: application/json\r\n" +  
-                  "Content-Length: 63\r\n" +
+                  "Content-Length: 60\r\n" +
                   "\r\n" +
-                  "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":0}"+"\r\n"+
+                  "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"door_status\":0}"+"\r\n"+
                   "Connection: close\r\n\r\n");
 
 }
