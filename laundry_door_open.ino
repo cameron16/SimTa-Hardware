@@ -11,6 +11,8 @@ int state = 0; //state = 0 => door close. state =1 ==> door open
 float open_margin = 25.0;
 float close_margin = 8.0;
 float y_avg_val;
+float x_avg_val;
+float z_avg_val;
 
 int SIGNAL_PIN = 4;
 
@@ -53,17 +55,27 @@ void setup(void)
 
   /* Display some basic information on this sensor */
   displaySensorDetails();
-  float counter_setup = 0.0;
-  for (int i =0; i<5; i++){
+  float counter_setup_x = 0.0;
+  float counter_setup_y = 0.0;
+  float counter_setup_z = 0.0;
+  int num_iterations = 5;
+  for (int i =0; i<num_iterations; i++){
     sensors_event_t event;
     mag.getEvent(&event);
-    counter_setup = counter_setup + event.magnetic.y;
+    counter_setup_x = counter_setup_x + event.magnetic.x;
+    counter_setup_y = counter_setup_y + event.magnetic.y;
+    counter_setup_z = counter_setup_z + event.magnetic.z;
   }
-  y_avg_val = counter_setup / 5;
-  Serial.println(y_avg_val);
-  Serial.println("AVERAGE VALUE ABOVE!");
+  x_avg_val = counter_setup_x / num_iterations;
+  y_avg_val = counter_setup_y / num_iterations;
+  z_avg_val = counter_setup_z / num_iterations;
+
+  
 //  float threshold = avg_val + margin;
 }
+  
+  
+
 
 void loop(void)
 {
@@ -84,6 +96,8 @@ void loop(void)
   // Serial.print("Z Raw: "); Serial.print(mag.raw.z); Serial.println("");
   
   /* Delay before the next sample */
+  
+  
   if (state == 0 && abs(y_val_curr - y_avg_val) > open_margin){
     Serial.println("DOOR OPENED"); 
     state = 1; 
