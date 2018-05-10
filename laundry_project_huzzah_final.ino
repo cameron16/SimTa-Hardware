@@ -32,11 +32,11 @@ int counter = 0;
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
-  pinMode(2, INPUT);
-  pinMode(0, OUTPUT);
+  pinMode(16, INPUT);
+//  pinMode(0, OUTPUT);
 
-  pinMode(13, OUTPUT);  
-  Serial.begin(115200);
+ // pinMode(13, OUTPUT);  
+  Serial.begin(9600);
   
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -54,17 +54,19 @@ void setup() {
   } else {
     Serial.println("certificate doesn't match");
   }
-  String url = "/laundry";
+  String url = "/washer";
    client.print(String("POST ") + url + " HTTP/1.1\r\n"+
                   "Host: " + host + "\r\n" +
                   "User-  Agent: BuildFailureDetectorESP8266\r\n" +
                   "Content-Type: application/json\r\n" +
                   "Content-Length: 63\r\n" +
-                  "\r\n" +
-                  "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":0}"+"\r\n"+
+                        "\r\n" +
+                        "{\"location\":\"570West45\",\"washer_num\":\"1\",\"laundry_status\":\"0\"}"+"\r\n"+
                   "Connection: close\r\n\r\n");
   
 }
+
+              //    "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":0}"+"\r\n"+
 
 void turn_laundry_on(){
   while (!client.connect(host, httpsPort)) {
@@ -75,17 +77,20 @@ void turn_laundry_on(){
         } else {
           Serial.println("certificate doesn't match");
         }
-        String url = "/laundry";
+        String url = "/washer";
          client.print(String("POST ") + url + " HTTP/1.1\r\n"+
                         "Host: " + host + "\r\n" +
                         "User-  Agent: BuildFailureDetectorESP8266\r\n" +
                         "Content-Type: application/json\r\n" +
-                        "Content-Length: 63\r\n" +
+                       "Content-Length: 63\r\n" +
                         "\r\n" +
-                        "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":1}"+"\r\n"+
+                        "{\"location\":\"570West45\",\"washer_num\":\"1\",\"laundry_status\":\"1\"}"+"\r\n"+
+                        
                         "Connection: close\r\n\r\n");
   
 }
+
+//"{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":1}"+"\r\n"+
 
 void turn_laundry_off(){
   while (!client.connect(host, httpsPort)) {
@@ -96,15 +101,18 @@ void turn_laundry_off(){
   } else {
     Serial.println("certificate doesn't match");
   }
-  String url = "/laundry";
+  String url = "/washer";
    client.print(String("POST ") + url + " HTTP/1.1\r\n"+
                   "Host: " + host + "\r\n" +
                   "User-  Agent: BuildFailureDetectorESP8266\r\n" +
                   "Content-Type: application/json\r\n" +  
                   "Content-Length: 63\r\n" +
                   "\r\n" +
-                  "{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":0}"+"\r\n"+
+                  "{\"location\":\"570West45\",\"washer_num\":\"1\",\"laundry_status\":\"0\"}"+"\r\n"+
                   "Connection: close\r\n\r\n");
+
+//"{\"laundry_number\":7,\"location\":\"Roosevelt\",\"laundry_status\":0}"+"\r\n"+
+//                  "{\"location\":\"570West45\",\"washer_num\":\"1\",\"laundry_status\":\"0\"}"+"\r\n"+
 
 }
 
@@ -112,11 +120,12 @@ void turn_laundry_off(){
 // the loop function runs over and over again forever
 void loop() {
   if (digitalRead(16) == LOW){
+    Serial.println("LOW");
    //BLINK SLOW. laundry machine ON
-    digitalWrite(0, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH);
     delay(1000);                      // Wait for a second
-    digitalWrite(0,LOW);
-    delay(2000);                      // Wait for two seconds (to demonstrate the active low LED)
+    digitalWrite(LED_BUILTIN,LOW);
+    delay(1000);                      // Wait for two seconds (to demonstrate the active low LED)
     if (state == "OFF"){
       state = "ON";
       turn_laundry_on();
@@ -126,9 +135,10 @@ void loop() {
   }
   else{
     //BLINK FAST. laundry machine OFF
-    digitalWrite(0, HIGH);
-    delay(100);
-    digitalWrite(0, LOW);
+    Serial.println("HIGH");
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(100);                      // Wait for a second
+    digitalWrite(LED_BUILTIN,LOW);
     delay(100);
     if (state == "ON"){
       turn_laundry_off();
