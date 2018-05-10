@@ -1,3 +1,5 @@
+We give smart functionalities to dumb laundry machines. The four files in the repo are used to detect whether a laundry machine is running or not and to infer when a person has removed their clothes from the machine. The Arduino files also update a MongoDB hosted in Google Cloud with the appropriate information.
+
 Functionalities of the 4 files:
 
 laundry_read_current: Detect when a laundry machine is running or not running. Runs on Arduino Uno
